@@ -1,0 +1,161 @@
+<div class="container mt-4" *ngIf="item; else loading">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item"><a routerLink="/">{{ item.category }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ item.title }}</li>
+    </ol>
+  </nav>
+
+  <div class="row">
+    <!-- Images Section -->
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-body p-0">
+          <div class="position-relative">
+            <img
+              [src]="item.images[currentImageIndex]"
+              class="img-fluid rounded-top"
+              [alt]="item.title"
+              style="width: 100%; height: 400px; object-fit: cover;"
+            >
+
+            <div *ngIf="item.images.length > 1" class="position-absolute top-50 start-0 translate-middle-y ms-2">
+              <button class="btn btn-light btn-circle" (click)="prevImage()">
+                <i class="bi bi-chevron-left"></i>
+              </button>
+            </div>
+
+            <div *ngIf="item.images.length > 1" class="position-absolute top-50 end-0 translate-middle-y me-2">
+              <button class="btn btn-light btn-circle" (click)="nextImage()">
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </div>
+
+            <div class="position-absolute top-0 start-0 m-3">
+              <span class="badge" [ngClass]="getConditionClass(item.condition)">
+                {{ getConditionText(item.condition) }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Thumbnails -->
+          <div *ngIf="item.images.length > 1" class="d-flex justify-content-center p-3">
+            <div class="d-flex gap-2">
+              <button
+                *ngFor="let img of item.images; let i = index"
+                class="btn btn-outline-secondary btn-sm"
+                [class.active]="i === currentImageIndex"
+                (click)="currentImageIndex = i"
+              >
+                {{ i + 1 }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">Descrizione</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{ item.description }}</p>
+
+          <h6 class="mt-4">Caratteristiche:</h6>
+          <ul class="list-group list-group-flush">
+            <li *ngFor="let feature of item.features" class="list-group-item">
+              <i class="bi bi-check-circle text-success me-2"></i>{{ feature }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+      <!-- Price & Action -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="text-primary">{{ formatPrice(item.price) }}</h2>
+
+          <div class="d-grid gap-2 mb-3">
+            <a [routerLink]="['/contact', item.id]" class="btn btn-primary btn-lg">
+              <i class="bi bi-chat-dots"></i> Contatta il Venditore
+            </a>
+          </div>
+
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            <small>Pubblica in tutta sicurezza seguendo i nostri consigli</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seller Info -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">Informazioni Venditore</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                 style="width: 50px; height: 50px;">
+              <span class="h5 mb-0">{{ item.seller.charAt(0) }}</span>
+            </div>
+            <div>
+              <h6 class="mb-1">{{ item.seller }}</h6>
+              <div class="text-warning">
+                <i class="bi bi-star-fill"></i>
+                <span class="ms-1">{{ item.sellerRating }}/5</span>
+              </div>
+            </div>
+          </div>
+
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+              <span><i class="bi bi-geo-alt"></i> Località</span>
+              <strong>{{ item.location }}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span><i class="bi bi-calendar"></i> Pubblicato</span>
+              <strong>{{ item.date | date:'dd/MM/yyyy' }}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span><i class="bi bi-tag"></i> Categoria</span>
+              <strong>{{ item.category }}</strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Safety Tips -->
+      <div class="card">
+        <div class="card-header bg-light">
+          <h6 class="mb-0"><i class="bi bi-shield-check"></i> Consigli di sicurezza</h6>
+        </div>
+        <div class="card-body">
+          <ul class="list-unstyled small">
+            <li class="mb-2"><i class="bi bi-check text-success"></i> Incontra il venditore in un luogo pubblico</li>
+            <li class="mb-2"><i class="bi bi-check text-success"></i> Verifica il prodotto prima di pagare</li>
+            <li class="mb-2"><i class="bi bi-check text-success"></i> Non inviare denaro in anticipo</li>
+            <li><i class="bi bi-check text-success"></i> Conserva tutte le comunicazioni</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="container mt-4">
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Caricamento...</span>
+      </div>
+      <p class="mt-3">Caricamento annuncio...</p>
+    </div>
+  </div>
+</ng-template>
