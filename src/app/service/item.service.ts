@@ -79,7 +79,7 @@ export class ItemService {
     }
   ];
 
-  private categories = ['Smartphones', 'Computer', 'Console & Videogiochi', 'Sport', 'Casa', 'Auto & Moto'];
+  private categories = ['Smartphones', 'Computers', 'Console & Videogiochi', 'Sport', 'Casa', 'Auto & Moto'];
   private locations = ['Milano', 'Roma', 'Torino', 'Firenze', 'Bologna', 'Napoli'];
 
   getItems(): Observable<Item[]> {
