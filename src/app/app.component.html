@@ -1,2 +1,94 @@
-<router-outlet></router-outlet>
-<app-item-list></app-item-list>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <i class="bi bi-shop-window me-2"></i>
+      Subito.it Clone
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active">
+            <i class="bi bi-house-door"></i> Home
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-list"></i> Categorie
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Smartphones</a></li>
+            <li><a class="dropdown-item" href="#">Computer</a></li>
+            <li><a class="dropdown-item" href="#">Console & Videogiochi</a></li>
+            <li><a class="dropdown-item" href="#">Sport</a></li>
+            <li><a class="dropdown-item" href="#">Casa</a></li>
+            <li><a class="dropdown-item" href="#">Auto & Moto</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="bi bi-plus-circle"></i> Inserisci Annuncio
+          </a>
+        </li>
+      </ul>
+
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Cerca annunci...">
+        <button class="btn btn-outline-light" type="submit">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+
+      <div class="navbar-nav ms-3">
+        <a class="nav-link" href="#">
+          <i class="bi bi-bell"></i>
+        </a>
+        <a class="nav-link" href="#">
+          <i class="bi bi-person-circle"></i> Accedi
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="min-vh-100">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-4 mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <h5>Subito.it Clone</h5>
+        <p class="text-muted">Il miglior sito di annunci usato in Italia. Compra e vendi in sicurezza.</p>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h5>Link Utili</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white-50 text-decoration-none">Chi siamo</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Termini di servizio</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Privacy Policy</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Aiuto</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h5>Contatti</h5>
+        <ul class="list-unstyled">
+          <li><i class="bi bi-envelope me-2"></i> supporto@subitoclone.it</li>
+          <li><i class="bi bi-telephone me-2"></i> +39 02 1234567</li>
+        </ul>
+      </div>
+    </div>
+    <hr class="bg-secondary">
+    <div class="text-center text-muted">
+      <small>&copy; 2024 Subito.it Clone. Tutti i diritti riservati.</small>
+    </div>
+  </div>
+</footer>

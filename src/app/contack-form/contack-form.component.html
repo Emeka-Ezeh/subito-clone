@@ -1,0 +1,159 @@
+<div class="container mt-4">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li *ngIf="item" class="breadcrumb-item">
+        <a [routerLink]="['/item', item.id]">{{ item.title | slice:0:30 }}...</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Contatta Venditore</li>
+    </ol>
+  </nav>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0"><i class="bi bi-envelope"></i> Contatta il Venditore</h4>
+        </div>
+
+        <div class="card-body">
+          <!-- Success Message -->
+          <div *ngIf="isSubmitted" class="alert alert-success">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-check-circle-fill fs-4 me-3"></i>
+              <div>
+                <h5 class="alert-heading">Messaggio inviato con successo!</h5>
+                <p class="mb-0">Il venditore ti contatterà presto. Verrai reindirizzato alla homepage in pochi secondi...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item Preview -->
+          <div *ngIf="item && !isSubmitted" class="card mb-4">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-3">
+                  <img [src]="item.images[0]"
+                       class="img-fluid rounded"
+                       [alt]="item.title"
+                       style="height: 100px; object-fit: cover;">
+                </div>
+                <div class="col-md-9">
+                  <h5 class="card-title">{{ item.title }}</h5>
+                  <div class="d-flex justify-content-between">
+                    <span class="h5 text-primary mb-0">{{ formatPrice(item.price) }}</span>
+                    <small class="text-muted">Venditore: {{ item.seller }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <form *ngIf="!isSubmitted" (ngSubmit)="onSubmit()" #contactForm="ngForm">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="name" class="form-label">Nome e Cognome *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  [(ngModel)]="contactForm.name"
+                  name="name"
+                  required
+                  placeholder="Il tuo nome completo"
+                >
+                <div class="invalid-feedback d-block" *ngIf="contactForm.name === '' && contactForm.touched">
+                  Il nome è obbligatorio
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email *</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  [(ngModel)]="contactForm.email"
+                  name="email"
+                  required
+                  placeholder="tua@email.com"
+                >
+                <div class="invalid-feedback d-block" *ngIf="contactForm.email === '' && contactForm.touched">
+                  L'email è obbligatoria
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="phone" class="form-label">Telefono (Opzionale)</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="phone"
+                [(ngModel)]="contactForm.phone"
+                name="phone"
+                placeholder="+39 123 456 7890"
+              >
+            </div>
+
+            <div class="mb-4">
+              <label for="message" class="form-label">Messaggio *</label>
+              <textarea
+                class="form-control"
+                id="message"
+                [(ngModel)]="contactForm.message"
+                name="message"
+                rows="5"
+                required
+                placeholder="Ciao, sono interessato al tuo articolo. Potresti darmi maggiori informazioni? Accetti pagamenti con PayPal?"
+              ></textarea>
+              <div class="form-text">
+                Scrivi un messaggio chiaro e includi tutte le domande che hai sul prodotto.
+              </div>
+              <div class="invalid-feedback d-block" *ngIf="contactForm.message === '' && contactForm.touched">
+                Il messaggio è obbligatorio
+              </div>
+            </div>
+
+            <!-- Safety Tips -->
+            <div class="alert alert-warning mb-4">
+              <h6><i class="bi bi-shield-exclamation"></i> Consigli per una compravendita sicura:</h6>
+              <ul class="mb-0 small">
+                <li>Non inviare denaro in anticipo tramite servizi di money transfer</li>
+                <li>Incontrati in un luogo pubblico e sicuro</li>
+                <li>Verifica il prodotto prima di pagare</li>
+                <li>Non condividere dati personali sensibili</li>
+              </ul>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <button
+                type="button"
+                class="btn btn-outline-secondary me-md-2"
+                (click)="router.navigate(['/item', item?.id])"
+              >
+                <i class="bi bi-arrow-left"></i> Torna all'annuncio
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!isFormValid() || isLoading"
+              >
+                <span *ngIf="!isLoading">
+                  <i class="bi bi-send"></i> Invia Messaggio
+                </span>
+                <span *ngIf="isLoading">
+                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                  Invio in corso...
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
